@@ -91,13 +91,13 @@ inline static ll getint(FILE* __stream = stdin) {
 
 /* Binary Indexed Tree */
 
-inline static ll lowbit(ll x) { return x & (-x); }
+inline static int lowbit(int x) { return x & (-x); }
 
 namespace BIT {
 
 inline static data_t _add(data_t x, data_t y) { return (x + y) % MOD; }
 
-inline static void add(data_t* a, size_t len, size_t index, data_t val) {
+inline static void add(data_t* a, int len, int index, data_t val) {
     // assert(0 <= index && index < len);
     index += 1;
     while (index <= len) {
@@ -106,7 +106,7 @@ inline static void add(data_t* a, size_t len, size_t index, data_t val) {
     }
 }
 
-inline static int query(const data_t* a, size_t len, size_t index) {
+inline static int query(const data_t* a, int len, int index) {
     // assert(0 <= index && index < len);
     data_t result = 0;
     index += 1;
@@ -117,7 +117,7 @@ inline static int query(const data_t* a, size_t len, size_t index) {
     return result;
 }
 
-inline static int range(const data_t* a, size_t len, size_t left, size_t right) {
+inline static int range(const data_t* a, int len, int left, int right) {
     data_t r = query(a, len, right), l = (left == 0) ? 0 : query(a, len, left - 1);
     return WRAP((r - l) % MOD, MOD);
 }
@@ -127,7 +127,7 @@ inline static int range(const data_t* a, size_t len, size_t left, size_t right) 
 /* Discretize */
 struct Elem {
     data_t val;
-    size_t index;
+    int index;
 };
 
 bool cmp_val(const Elem& a, const Elem& b) {
@@ -140,7 +140,7 @@ bool cmp_index(const Elem& a, const Elem& b) {
     return a.index < b.index;
 }
 
-void discretize(data_t* data, size_t len) {
+void discretize(data_t* data, int len) {
     static Elem elem[MAXN + 1];
     FOR_RANGE_LT(i, 0, len) {
         elem[i].val = data[i];
@@ -148,7 +148,7 @@ void discretize(data_t* data, size_t len) {
     }
     std::sort(elem, elem + len, cmp_val);
     data_t last_val = 0;
-    size_t last_index = 0;
+    int last_index = 0;
     FOR_RANGE_LT(i, 0, len) {
         if (i == 0 || elem[i].val != last_val) {
             last_index = i;
